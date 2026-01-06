@@ -7,6 +7,12 @@ plugins {
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.compose.compiler)
+    `maven-publish`
+}
+
+allprojects {
+    group = (findProperty("GROUP") as String)
+    version = (findProperty("VERSION_NAME") as String)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
