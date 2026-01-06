@@ -1,17 +1,17 @@
 [versions]
 
-kotlin = "1.9.10"
-agp = "8.1.2"
-compose = "1.5.1"
-androidx-appcompat = "1.6.1"
-androidx-activityCompose = "1.7.2"
-compose-uitooling = "1.5.1"
-napier = "2.6.1"
-buildConfig = "4.1.1"
-kotlinx-coroutines = "1.7.3"
+kotlin = "2.3.0"
+agp = "8.13.2"
+compose = "1.9.3"
+androidx-appcompat = "1.7.1"
+androidx-activityCompose = "1.12.2"
+compose-uitooling = "1.10.0"
+napier = "2.7.1"
+buildConfig = "6.0.7"
+kotlinx-coroutines = "1.10.2"
 ktor = "2.3.5"
-kotlinx-serialization = "1.6.0"
-kotlinx-datetime = "0.4.1"
+kotlinx-serialization = "1.9.0"
+kotlinx-datetime = "0.7.1"
 
 [libraries]
 
@@ -34,3 +34,4 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

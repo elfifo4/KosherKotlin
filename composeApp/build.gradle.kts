@@ -6,18 +6,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
+    jvmToolchain(jdkVersion = 17)
+
+    kotlin.applyDefaultHierarchyTemplate()
+
+    androidTarget()
 
     jvm("desktop")
 
@@ -99,11 +97,11 @@ kotlin {
 
 android {
     namespace = "sternbach.software.kosherkotlin"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
 
         applicationId = "sternbach.software.kosherkotlin.androidApp"
         versionCode = 1
