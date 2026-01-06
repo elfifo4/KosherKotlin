@@ -1,6 +1,7 @@
 package hebrewcalendar
 
 import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewLocalDate.Companion.toHebrewDate
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate.Companion.daysInJewishYear
@@ -141,9 +142,9 @@ class ConvertBetweenGregorianAndHebrewTest {
         val distantFutureJewishDate =
             com.kosherjava.zmanim.hebrewcalendar.JewishDate(
                 LocalDate.of(
-                    newGregorianDate.year,
-                    newGregorianDate.month,
-                    newGregorianDate.dayOfMonth
+                    /* year = */ newGregorianDate.year,
+                    /* month = */ newGregorianDate.month.number,
+                    /* dayOfMonth = */ newGregorianDate.dayOfMonth
                 )
             ) //java.time.LocalDate.of(2239, Month.SEPTEMBER, 30) == 6000-1-1 hebrew, but takes too long to complete
         var kotlinCurrentJewishDate = HebrewLocalDate(
@@ -170,7 +171,7 @@ class ConvertBetweenGregorianAndHebrewTest {
 
             val kotlinGregorian = kotlinCurrentJewishDate.toLocalDateGregorian()
             assertEquals(javaCurrentJewishDate.gregorianYear, kotlinGregorian.year)
-            assertEquals(javaCurrentJewishDate.gregorianMonth + 1, kotlinGregorian.month.value)
+            assertEquals(javaCurrentJewishDate.gregorianMonth + 1, kotlinGregorian.month.number)
             assertEquals(javaCurrentJewishDate.gregorianDayOfMonth, kotlinGregorian.dayOfMonth)
 
             javaCurrentJewishDate.forward(Calendar.DATE, 1);

@@ -8,11 +8,10 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toJavaZoneId
-import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
@@ -37,6 +36,8 @@ import java.util.Calendar
 import java.util.Date
 import java.util.stream.Collectors
 import java.util.stream.LongStream
+import kotlin.time.toJavaInstant
+import kotlin.time.toKotlinInstant
 
 class RegressionTest {
     companion object {
@@ -76,9 +77,9 @@ class RegressionTest {
 
         val kotlinDate = startingDateGregorian.atStartOfDayIn(TimeZone.UTC)
         val javaDate = java.time.LocalDate.of(
-            startingDateGregorian.year,
-            startingDateGregorian.month,
-            startingDateGregorian.dayOfMonth
+            /* year = */ startingDateGregorian.year,
+            /* month = */ startingDateGregorian.month.number,
+            /* dayOfMonth = */ startingDateGregorian.dayOfMonth
         )
         val allDays = LongStream
             .range(0, kotlinDate.until(YEAR_6000_INSTANT, DateTimeUnit.DAY, TimeZone.UTC))
