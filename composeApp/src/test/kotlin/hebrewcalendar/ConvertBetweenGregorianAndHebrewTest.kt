@@ -1,14 +1,16 @@
 package hebrewcalendar
 
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.plus
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewLocalDate.Companion.toHebrewDate
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate.Companion.daysInJewishYear
-import sternbach.software.kosherkotlin.util.DateUtils.now
-import kotlinx.datetime.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewLocalDate
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewMonth
-import java.util.*
+import sternbach.software.kosherkotlin.util.DateUtils.now
+import java.time.LocalDate
+import java.util.Calendar
 
 class ConvertBetweenGregorianAndHebrewTest {
 
@@ -114,7 +116,7 @@ class ConvertBetweenGregorianAndHebrewTest {
             HebrewLocalDate.STARTING_DATE_GREGORIAN,
             HebrewLocalDate.STARTING_DATE_HEBREW.toLocalDateGregorian()
         )
-        val distantFuture = LocalDate(100_000, 1, 1)
+        val distantFuture = kotlinx.datetime.LocalDate(100_000, 1, 1)
         val distantFutureHebrew = HebrewLocalDate(103759, HebrewMonth.CHESHVAN, 22)
         assertEquals(distantFuture, distantFutureHebrew.toLocalDateGregorian())
     }
@@ -123,13 +125,13 @@ class ConvertBetweenGregorianAndHebrewTest {
     fun `gregorian to hebrew - min and max date`() {
         assertEquals(HebrewLocalDate.STARTING_DATE_HEBREW, HebrewLocalDate.STARTING_DATE_GREGORIAN.toHebrewDate())
         val distantFutureHebrew = HebrewLocalDate(103_759, HebrewMonth.CHESHVAN, 22)
-        val distantFuture = LocalDate(100_000, 1, 1)
+        val distantFuture = kotlinx.datetime.LocalDate(100_000, 1, 1)
         assertEquals(distantFutureHebrew, distantFuture.toHebrewDate())
     }
 
     @Test
     fun twoWayConversion() {
-        val now = LocalDate.now() //probably bad practice to use a value which can change between tests
+        val now = kotlinx.datetime.LocalDate.now() //probably bad practice to use a value which can change between tests
         assertEquals(now, now.toHebrewDate().toLocalDateGregorian())
     }
 
@@ -138,7 +140,7 @@ class ConvertBetweenGregorianAndHebrewTest {
         val newGregorianDate = HebrewLocalDate.STARTING_DATE_GREGORIAN.plus(DatePeriod(years = 1, months = 1))
         val distantFutureJewishDate =
             com.kosherjava.zmanim.hebrewcalendar.JewishDate(
-                java.time.LocalDate.of(
+                LocalDate.of(
                     newGregorianDate.year,
                     newGregorianDate.month,
                     newGregorianDate.dayOfMonth
@@ -179,7 +181,7 @@ class ConvertBetweenGregorianAndHebrewTest {
     @Test
     fun `6th month doesn't work (for some reason)`() {
         val hebrew = HebrewLocalDate(4483, HebrewMonth.ELUL, 29)
-        val gregorian = LocalDate(723, 9, 9)
+        val gregorian = kotlinx.datetime.LocalDate(723, 9, 9)
         assertEquals(hebrew, gregorian.toHebrewDate())
         assertEquals(gregorian, hebrew.toLocalDateGregorian())
     }
@@ -198,22 +200,22 @@ class ConvertBetweenGregorianAndHebrewTest {
 
 
     // Simple cases, before starting date
-/*
-    @Test
-    fun lessThanMonthBeforeStartingDate() {
-        val numDaysToSubtract = 3
-        val date = HebrewLocalDate.STARTING_DATE_GREGORIAN.minus(DatePeriod(days = numDaysToSubtract))
-        println("Date: $date")
-        val hebrew = HebrewLocalDate.STARTING_DATE_HEBREW
-        val expectedNewMonth = hebrew.month.previousMonth
-        val expectedNewYear = hebrew.year - 1
-        val daysInJewishMonth = JewishDate.getDaysInJewishMonth(expectedNewMonth, expectedNewYear)
-        println("Days in jewish month: $daysInJewishMonth")
-        assertEquals(
-            HebrewLocalDate(
-                expectedNewYear,
-                expectedNewMonth,
-                daysInJewishMonth - numDaysToSubtract + hebrew.dayOfMonth*//*include starting day of old year*//*
+    /*
+        @Test
+        fun lessThanMonthBeforeStartingDate() {
+            val numDaysToSubtract = 3
+            val date = HebrewLocalDate.STARTING_DATE_GREGORIAN.minus(DatePeriod(days = numDaysToSubtract))
+            println("Date: $date")
+            val hebrew = HebrewLocalDate.STARTING_DATE_HEBREW
+            val expectedNewMonth = hebrew.month.previousMonth
+            val expectedNewYear = hebrew.year - 1
+            val daysInJewishMonth = JewishDate.getDaysInJewishMonth(expectedNewMonth, expectedNewYear)
+            println("Days in jewish month: $daysInJewishMonth")
+            assertEquals(
+                HebrewLocalDate(
+                    expectedNewYear,
+                    expectedNewMonth,
+                    daysInJewishMonth - numDaysToSubtract + hebrew.dayOfMonth*//*include starting day of old year*//*
             ), date.toHebrewDate()
         )
     }

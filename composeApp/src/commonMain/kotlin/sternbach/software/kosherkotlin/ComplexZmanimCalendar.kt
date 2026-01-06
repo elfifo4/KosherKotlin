@@ -15,7 +15,44 @@
  */
 package sternbach.software.kosherkotlin
 
-import kotlinx.datetime.*
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_10_POINT_2
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_11_DEGREES
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_11_POINT_5
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_13_POINT_24
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_16_POINT_9
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_19_DEGREES
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_19_POINT_8
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_1_POINT_583
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_26_DEGREES
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_3_POINT_65
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_3_POINT_676
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_3_POINT_7
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_3_POINT_8
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_4_POINT_37
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_4_POINT_61
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_4_POINT_8
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_5_POINT_88
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_5_POINT_95
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_6_DEGREES
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_6_POINT_45
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_7_POINT_083
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_7_POINT_65
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_7_POINT_67
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_9_POINT_3
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_9_POINT_5
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_9_POINT_75
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_MINUS_2_POINT_1
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_MINUS_2_POINT_8
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar.Companion.ZENITH_MINUS_3_POINT_05
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar
 import sternbach.software.kosherkotlin.metadata.UsesElevation
 import sternbach.software.kosherkotlin.metadata.ZmanAuthority
@@ -30,11 +67,12 @@ import sternbach.software.kosherkotlin.metadata.ZmanType
 import sternbach.software.kosherkotlin.util.AstronomicalCalculator
 import sternbach.software.kosherkotlin.util.GeoLocation
 import sternbach.software.kosherkotlin.util.GeoLocation.Companion.rawOffset
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
-
+import kotlin.time.Instant
 
 /**
  *

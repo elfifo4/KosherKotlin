@@ -1,9 +1,10 @@
 package sternbach.software.kosherkotlin
 
+import kotlinx.datetime.LocalTime
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewLocalDate
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewMonth
 import sternbach.software.kosherkotlin.util.GeoLocation
-import kotlinx.datetime.*
+import kotlin.time.Clock
 
 fun main(args: Array<String>) {
     println(Clock.System.now().toString())
@@ -71,7 +72,7 @@ val lakewood = GeoLocation("Lakewood, NJ", 40.0721087, -74.2400243, 15.0, kotlin
 //    println(days.milliseconds.inWholeNanoseconds)
     println(Long.MAX_VALUE)
     val year6000 = HebrewLocalDate(6000, HebrewMonth.TISHREI, 1).toLocalDateGregorian()
-    val midnight = LocalTime(0,0,0)
+    val midnight = LocalTime(0, 0, 0)
 //    fun kotlinx.datetime.TimeZone.toJava() = java.util.TimeZone.getTimeZone(id)
 //    fun GeoLocation.toJava() = com.kosherjava.java.zmanim.util.GeoLocation(locationName, latitude, longitude, elevation, timeZone.toJava())
 //    println(days.inWholeNanoseconds)

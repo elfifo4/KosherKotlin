@@ -15,11 +15,23 @@
  */
 package sternbach.software.kosherkotlin
 
-import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import sternbach.software.kosherkotlin.AstronomicalCalendar.Companion.ASTRONOMICAL_ZENITH
+import sternbach.software.kosherkotlin.AstronomicalCalendar.Companion.CIVIL_ZENITH
+import sternbach.software.kosherkotlin.AstronomicalCalendar.Companion.NAUTICAL_ZENITH
+import sternbach.software.kosherkotlin.AstronomicalCalendar.Companion.getTimeOffset
 import sternbach.software.kosherkotlin.util.AstronomicalCalculator
 import sternbach.software.kosherkotlin.util.GeoLocation
-import kotlinx.datetime.*
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Instant
 
 /**
  * A Java calendar that calculates astronomical times such as [sunrise], [sunset] and twilight times. This class contains a [Calendar][calendar] and can therefore use the standard

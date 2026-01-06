@@ -17,24 +17,38 @@
  */
 package sternbach.software.kosherkotlin.hebrewcalendar
 
-import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Parsha.NONE
-import sternbach.software.kosherkotlin.util.GeoLocation
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.CHANUKAH
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.CHOL_HAMOED_PESACH
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.CHOL_HAMOED_SUCCOS
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.HOSHANA_RABBA
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.PESACH
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.PESACH_SHENI
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.ROSH_HASHANA
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.SHAVUOS
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.SHEMINI_ATZERES
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.SIMCHAS_TORAH
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.SUCCOS
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.TU_BEAV
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.YOM_HAATZMAUT
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.YOM_KIPPUR
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Companion.toJewishDayOfWeek
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar.Parsha.NONE
+import sternbach.software.kosherkotlin.util.GeoLocation
 import kotlin.math.floor
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Instant
 
 /**
  * The JewishCalendar extends the JewishDate class and adds calendar methods.

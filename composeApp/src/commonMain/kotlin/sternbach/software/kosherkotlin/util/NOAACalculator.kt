@@ -17,9 +17,12 @@ package sternbach.software.kosherkotlin.util
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-
-import sternbach.software.kosherkotlin.hebrewcalendar.*
-import kotlin.math.*
+import kotlin.math.acos
+import kotlin.math.asin
+import kotlin.math.atan
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 /**
  * Implementation of sunrise and sunset methods to calculate astronomical times based on the [NOAA](https://noaa.gov) algorithm. This calculator uses the Java algorithm based on the implementation by [NOAA - National Oceanic and Atmospheric Administration](https://noaa.gov)'s [Surface Radiation Research Branch](https://www.srrb.noaa.gov/highlights/sunrise/sunrise.html). NOAA's [implementation](https://www.srrb.noaa.gov/highlights/sunrise/solareqns.PDF) is based on equations from [Astronomical Algorithms](https://www.amazon.com/Astronomical-Table-Sun-Moon-Planets/dp/1942675038/) by [Jean Meeus](https://en.wikipedia.org/wiki/Jean_Meeus). Added to the algorithm is an adjustment of the zenith

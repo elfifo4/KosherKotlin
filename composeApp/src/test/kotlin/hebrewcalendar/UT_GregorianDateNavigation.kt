@@ -9,7 +9,8 @@ import org.junit.Assert
 import org.junit.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
 import java.time.ZoneId
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 
 /**
  * Checks that we can roll forward & backward the gregorian dates...

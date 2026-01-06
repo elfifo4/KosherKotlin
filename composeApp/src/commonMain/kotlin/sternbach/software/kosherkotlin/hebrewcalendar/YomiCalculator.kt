@@ -15,8 +15,8 @@
  */
 package sternbach.software.kosherkotlin.hebrewcalendar
 
-import sternbach.software.kosherkotlin.util.*
 import kotlinx.datetime.LocalDate
+import sternbach.software.kosherkotlin.util.DateUtils
 
 /**
  * This class calculates the Daf Yomi Bavli page (daf) for a given date. To calculate Daf Yomi Yerushalmi

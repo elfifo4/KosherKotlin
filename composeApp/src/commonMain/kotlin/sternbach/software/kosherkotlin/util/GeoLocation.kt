@@ -18,9 +18,15 @@ package sternbach.software.kosherkotlin.util
 import sternbach.software.kosherkotlin.util.AstronomicalCalculator.Companion.toDegrees
 import sternbach.software.kosherkotlin.util.AstronomicalCalculator.Companion.toRadians
 import kotlinx.datetime.TimeZone
-
-
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.atan
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.ln
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 /**
  * A class that contains location information such as latitude and longitude required for astronomical calculations. The
