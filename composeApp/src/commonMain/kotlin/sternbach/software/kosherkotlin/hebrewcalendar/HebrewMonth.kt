@@ -1,6 +1,7 @@
 package sternbach.software.kosherkotlin.hebrewcalendar;
 
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate.Companion.isJewishLeapYear
+import kotlin.math.absoluteValue
 
 enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
     /**
@@ -102,9 +103,9 @@ enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
     val nextMonth get() = getMonthForValue(value + 1)
 
     fun isLastMonthInYear(jewishYear: Long, tishreiBased: Boolean = true) =
-        if (tishreiBased) this == ELUL
+        if(tishreiBased) this == ELUL
         else
-            if (jewishYear.isJewishLeapYear) this == ADAR_II
+            if(jewishYear.isJewishLeapYear) this == ADAR_II
             else this == ADAR
 
     fun isFirstMonthInYear(tishreiBased: Boolean = true) =
@@ -124,7 +125,7 @@ enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
         ) null /*get next month after last month?! we would spill over to the next year*/
         else
             if (this == ADAR)
-                if (jewishYear.isJewishLeapYear) ADAR_II
+                if(jewishYear.isJewishLeapYear) ADAR_II
                 else NISSAN
             else nextMonth
 
@@ -151,7 +152,7 @@ enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
 
     class HebrewMonthRange(
         override val start: HebrewMonth,
-        override val endInclusive: HebrewMonth,
+        override val endInclusive: HebrewMonth
     ) : ClosedRange<HebrewMonth>, Iterable<HebrewMonth> {
         override fun iterator(): Iterator<HebrewMonth> = object : Iterator<HebrewMonth> {
             private var next = start
@@ -171,31 +172,17 @@ enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
 
     companion object {
         /**
-         * Returns the [HebrewMonth] for the given numeric value, where 1 corresponds to [NISSAN]
-         * and 13 corresponds to [ADAR_II].
-         *
-         * Values outside the range 1..13 are wrapped cyclically using modulo arithmetic.
-         * This means the sequence is treated as circular:
-         * - 0 returns [ADAR_II]
-         * - -1 returns [ADAR]
-         * - 14 returns [NISSAN]
-         * - 15 returns [IYAR]
-         *
-         * This behavior ensures correct navigation when moving forward or backward across
-         * month boundaries (e.g., for [previousMonth] / [nextMonth]).
-         *
-         * @param value any integer (positive, zero, or negative)
-         * @return the corresponding [HebrewMonth] after wrapping
-         */
+         * Returns the HebrewMonth for the given value, with 1 being [NISSAN] and 13 being [ADAR_II].
+         * @param value from 1 to 13. Values outside this range will be wrapped.
+         * */
         fun getMonthForValue(value: Int): HebrewMonth {
-            val values = entries.toTypedArray()
-            val index = (value - 1).mod(values.size)
-            return values[index]
+            val values = values()
+            return values[((value - 1) % values.size).absoluteValue]
         }
 
         /**
          * Converts the [NISSAN] based constants used by this class to numeric month starting from
-         * [TISHREI]. This is required for Molad calculations.
+         * [TISHREI]. This is required for Molad claculations.
          *
          * @param jewishYear
          * The Jewish year
@@ -205,12 +192,10 @@ enum class HebrewMonth(val value: Int) : Comparable<HebrewMonth> {
          */
         fun getTishreiBasedValue(nissanBasedValue: Int, jewishYear: Int): Int =
             getTishreiBasedValue(nissanBasedValue, jewishYear.toLong())
-
         fun getTishreiBasedValue(nissanBasedValue: Int, jewishYear: Long): Int =
             1 +
-                    if (jewishYear.isJewishLeapYear) (nissanBasedValue + 6) % 13
+                    if(jewishYear.isJewishLeapYear) (nissanBasedValue + 6) % 13
                     else (nissanBasedValue + 5) % 12
-
         /**
          * Interpolates this [month]
          * */
