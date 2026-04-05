@@ -63,12 +63,12 @@ class JewishCalendarParshaRegressionTest {
 
     @Test
     fun `getMonthForValue should wrap correctly around boundaries`() {
-        assertEquals(HebrewMonth.NISSAN, HebrewMonth.Companion.getMonthForValue(1))
-        assertEquals(HebrewMonth.ADAR_II, HebrewMonth.Companion.getMonthForValue(13))
-        assertEquals(HebrewMonth.ADAR_II, HebrewMonth.Companion.getMonthForValue(0))
-        assertEquals(HebrewMonth.ADAR, HebrewMonth.Companion.getMonthForValue(-1))
-        assertEquals(HebrewMonth.NISSAN, HebrewMonth.Companion.getMonthForValue(14))
-        assertEquals(HebrewMonth.IYAR, HebrewMonth.Companion.getMonthForValue(15))
+        assertEquals(HebrewMonth.NISSAN, HebrewMonth.getMonthForValue(1))
+        assertEquals(HebrewMonth.ADAR_II, HebrewMonth.getMonthForValue(13))
+        assertEquals(HebrewMonth.ADAR_II, HebrewMonth.getMonthForValue(0))
+        assertEquals(HebrewMonth.ADAR, HebrewMonth.getMonthForValue(-1))
+        assertEquals(HebrewMonth.NISSAN, HebrewMonth.getMonthForValue(14))
+        assertEquals(HebrewMonth.IYAR, HebrewMonth.getMonthForValue(15))
     }
 
     @Test
