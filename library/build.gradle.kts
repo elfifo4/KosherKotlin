@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.elfifo4"
-version = "1.0.0"
+version = "1.0.1"
 
 kotlin {
     applyDefaultHierarchyTemplate()
@@ -44,6 +44,7 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
+        @Suppress("unused")
         val desktopTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
