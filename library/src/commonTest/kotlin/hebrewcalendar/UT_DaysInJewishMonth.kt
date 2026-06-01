@@ -3,9 +3,11 @@
  */
 package hebrewcalendar
 
-import kotlin.test.*
-import kotlin.test.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 /**
  * Validate the days in a Hebrew month (in various types of years) are correct.

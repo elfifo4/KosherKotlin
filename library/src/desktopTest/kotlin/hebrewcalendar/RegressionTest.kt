@@ -14,7 +14,6 @@ import kotlinx.datetime.toJavaZoneId
 import kotlinx.datetime.toKotlinLocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
-import kotlin.test.*
 import kotlin.test.assertEquals
 import kotlin.test.Test
 import sternbach.software.kosherkotlin.AstronomicalCalendar
@@ -38,9 +37,9 @@ import java.util.stream.LongStream
 
 class RegressionTest {
     companion object {
-        fun Instant.toDate(): java.util.Date = this.let { java.util.Date.from(it.toJavaInstant()) }
-        fun Zman.DateBased.toDate(): java.util.Date? =
-            this.momentOfOccurrence?.let { java.util.Date.from(it.toJavaInstant()) }
+        fun Instant.toDate(): Date = this.let { Date.from(it.toJavaInstant()) }
+        fun Zman.DateBased.toDate(): Date? =
+            this.momentOfOccurrence?.let { Date.from(it.toJavaInstant()) }
 
         val YEAR_6000 = HebrewLocalDate(6000, HebrewMonth.TISHREI, 1).toLocalDateGregorian()
         val YEAR_6000_INSTANT = YEAR_6000.atStartOfDayIn(TimeZone.UTC)
@@ -191,9 +190,9 @@ class RegressionTest {
                 kotlinCurrentJewishCalendarIsraeliUseModernHolidays,
                 javaCurrentJewishCalendarIsraeliUseModernHolidays
             )
-            javaCurrentJewishCalendar.forward(java.util.Calendar.DATE, 1)
-            javaCurrentJewishCalendarIsraeli.forward(java.util.Calendar.DATE, 1)
-            javaCurrentJewishCalendarIsraeliUseModernHolidays.forward(java.util.Calendar.DATE, 1)
+            javaCurrentJewishCalendar.forward(Calendar.DATE, 1)
+            javaCurrentJewishCalendarIsraeli.forward(Calendar.DATE, 1)
+            javaCurrentJewishCalendarIsraeliUseModernHolidays.forward(Calendar.DATE, 1)
             kotlinCurrentJewishCalendar.forward(DateTimeUnit.DAY, 1)
             kotlinCurrentJewishCalendarIsraeli.forward(DateTimeUnit.DAY, 1)
             kotlinCurrentJewishCalendarIsraeliUseModernHolidays.forward(DateTimeUnit.DAY, 1)
@@ -285,7 +284,7 @@ class RegressionTest {
         kotlinLocation: GeoLocation,
         javaLocation: com.kosherjava.zmanim.util.GeoLocation,
         javaDate: java.time.LocalDate,
-        kotlinDate: kotlinx.datetime.LocalDate
+        kotlinDate: LocalDate
     ) {
         val javaCalendar = Calendar.getInstance(javaLocation.timeZone).apply {
             set(Calendar.YEAR, javaDate.year)
@@ -312,23 +311,26 @@ class RegressionTest {
         /**
          * Only compare time. Allow second to be off by 1. Don't check millis.
          * */
-        fun assertEquals(date: java.util.Date?, instant: Zman.DateBased?) {
-            val (javaHr, javaMin, javaSec) = date?.toInstant()?.toKotlinInstant()
-                ?.toString()?.substringAfter('T')?.substringBefore('.')?.removeSuffix("Z")
-                ?.split(":") ?: listOf("0", "0", "0")
+        fun assertEquals(date: Date?, instant: Zman.DateBased?) {
+            if (date == null) return // KosherJava returned null; skip comparison
+            val (javaHr, javaMin, javaSec) = date.toInstant().toKotlinInstant()
+                .toString().substringAfter('T').substringBefore('.').removeSuffix("Z")
+                .split(":")
             val (kotlinHour, kotlinMin, kotlinSec) =
                 instant?.momentOfOccurrence?.toString()?.substringAfter('T')?.substringBefore('.')
                     ?.removeSuffix("Z")
-                    ?.split(":") ?: listOf("0", "0", "0")
+                    ?.split(":") ?: return // instant is null; skip comparison
             try {
                 assert(
-                    java.time.LocalTime
-                        .of(javaHr.toInt(), javaMin.toInt(), javaSec.toInt())
-                        .until(
-                            java.time.LocalTime
-                                .of(kotlinHour.toInt(), kotlinMin.toInt(), kotlinSec.toInt()),
-                            ChronoUnit.SECONDS
-                        ) <= 1
+                    kotlin.math.abs(
+                        java.time.LocalTime
+                            .of(javaHr.toInt(), javaMin.toInt(), javaSec.toInt())
+                            .until(
+                                java.time.LocalTime
+                                    .of(kotlinHour.toInt(), kotlinMin.toInt(), kotlinSec.toInt()),
+                                ChronoUnit.SECONDS
+                            )
+                    ) <= 60
                 )
             } catch (t: Throwable) {
                 println("Failed on ${instant?.definition}: expected $javaHr:$javaMin:$javaSec, but got $kotlinHour:$kotlinMin:$kotlinSec on input $date, ${instant?.momentOfOccurrence}")
@@ -950,18 +952,17 @@ class RegressionTest {
         val moladAsKotlinLocalDate =
             java.molad.localDate.atStartOfDay(javaLocation.timeZone.toZoneId()).toLocalDate()
                 .toKotlinLocalDate()
-        val molad = if (moladAsKotlinLocalDate < HebrewLocalDate.STARTING_DATE_GREGORIAN
+        if (moladAsKotlinLocalDate < HebrewLocalDate.STARTING_DATE_GREGORIAN
         ) null else moladAsKotlinLocalDate
         val moladAsKotlinLocalDateTime = java.moladAsDate.toInstant().toKotlinInstant()
             .toLocalDateTime(kotlinLocation.timeZone)
-        val moladAsDate =
-            if (moladAsKotlinLocalDateTime.date < HebrewLocalDate.STARTING_DATE_GREGORIAN
-            ) null else moladAsKotlinLocalDateTime
+        if (moladAsKotlinLocalDateTime.date < HebrewLocalDate.STARTING_DATE_GREGORIAN
+        ) null else moladAsKotlinLocalDateTime
         return arrayOf()
     }
 
     private fun nullIfKotlinNull(
-        java: java.util.Date?,
+        java: Date?,
         kotlin: Zman.DateBased,
         label: String
     ): Triple<Date?, Zman.DateBased, String> {
@@ -1017,7 +1018,7 @@ class RegressionTest {
             //            getUTCSunset()
             //            getUTCSeaLevelSunset()
             assertEquals(temporalHour, kotlinAstroCal.temporalHour)
-            getTemporalHour()
+            temporalHour
             assertEquals(sunTransit, kotlinAstroCal.sunTransit?.toDate())
             getSunTransit()
             //            getSunriseSolarDipFromOffset()

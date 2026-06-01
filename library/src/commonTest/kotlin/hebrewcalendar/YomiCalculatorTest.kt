@@ -1,11 +1,11 @@
 package hebrewcalendar
 
-import kotlin.test.*
-import kotlin.test.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewDateFormatter
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewMonth
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar
 import sternbach.software.kosherkotlin.hebrewcalendar.YomiCalculator
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class YomiCalculatorTest {
     private val calc = YomiCalculator

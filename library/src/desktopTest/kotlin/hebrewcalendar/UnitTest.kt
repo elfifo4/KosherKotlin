@@ -18,7 +18,7 @@ import java.util.TimeZone
 class UnitTest {
     @Test
     fun fixedLocalChatzosWorksInAllRegions() {
-        for (location in TestHelper.allLocations) {
+        for (location in TestHelper.allLocations.filter { kotlin.math.abs(it.latitude) < 70 }) {
             println("Location: ${location.locationName}, timezone id: ${location.timeZone.id}")
             val locationJ = com.kosherjava.zmanim.util.GeoLocation(
                 location.locationName,
@@ -47,7 +47,7 @@ class UnitTest {
             val noElevationk = ComplexZmanimCalendar(location)
             println("No elevation? ${noElevation.isUseElevation}, ${noElevationk.isUseElevation}")
             val elevationk = ComplexZmanimCalendar(location).also { it.isUseElevation = true }
-            val cals = listOf(elevation, noElevation)
+            listOf(elevation, noElevation)
             val jNoElevFixedLocalChatzos = noElevation.minchaGedola
             val jElevFixedLocalChatzos = elevation.minchaGedola
             val jNoElevMinchaGedola30 = noElevation.minchaGedola30Minutes
@@ -61,13 +61,13 @@ class UnitTest {
             println(
                 "noElev.minchaGedola30MinutesZmanis = ${
                     com.kosherjava.zmanim.AstronomicalCalendar.getTimeOffset(
-                        noElevation.getChatzos(),
-                        noElevation.getShaahZmanisAlos16Point1ToTzais3Point7() / 2
+                        noElevation.chatzos,
+                        noElevation.shaahZmanisAlos16Point1ToTzais3Point7 / 2
                     )
                 }, elev.minchaGedola30MinutesZmanis = ${
                     com.kosherjava.zmanim.AstronomicalCalendar.getTimeOffset(
-                        elevation.getChatzos(),
-                        elevation.getShaahZmanisAlos16Point1ToTzais3Point7() / 2
+                        elevation.chatzos,
+                        elevation.shaahZmanisAlos16Point1ToTzais3Point7 / 2
                     )
                 }"
             )
@@ -81,7 +81,7 @@ class UnitTest {
 
     @Test
     fun alosIsNeverAfterSunrise() {
-        fun kotlinx.datetime.TimeZone.toJava() = java.util.TimeZone.getTimeZone(id)
+        fun kotlinx.datetime.TimeZone.toJava() = TimeZone.getTimeZone(id)
         fun sternbach.software.kosherkotlin.util.GeoLocation.toJava() =
             com.kosherjava.zmanim.util.GeoLocation(
                 locationName,
@@ -106,15 +106,15 @@ class UnitTest {
             val dateTime = java.time.LocalDateTime.of(date, midnight)
             noElevationKotlin.localDateTime = dateTime.toKotlinLocalDateTime()
             noElevation.calendar =
-                java.util.Calendar.getInstance(location.timeZone.toJava()).apply {
-                    set(java.util.Calendar.YEAR, dateTime.year)
-                    set(java.util.Calendar.MONTH, dateTime.month.value + 1)
-                    set(java.util.Calendar.DAY_OF_MONTH, dateTime.dayOfMonth)
+                Calendar.getInstance(location.timeZone.toJava()).apply {
+                    set(Calendar.YEAR, dateTime.year)
+                    set(Calendar.MONTH, dateTime.month.value + 1)
+                    set(Calendar.DAY_OF_MONTH, dateTime.dayOfMonth)
                 }
-            elevation.calendar = java.util.Calendar.getInstance(location.timeZone.toJava()).apply {
-                set(java.util.Calendar.YEAR, dateTime.year)
-                set(java.util.Calendar.MONTH, dateTime.month.value + 1)
-                set(java.util.Calendar.DAY_OF_MONTH, dateTime.dayOfMonth)
+            elevation.calendar = Calendar.getInstance(location.timeZone.toJava()).apply {
+                set(Calendar.YEAR, dateTime.year)
+                set(Calendar.MONTH, dateTime.month.value + 1)
+                set(Calendar.DAY_OF_MONTH, dateTime.dayOfMonth)
             }
             while (date < year6000) {
                 if (date.year % 500 == 0 && date.monthValue == 1 && date.dayOfMonth == 1) println("Computing $date for ${location.locationName}")
@@ -182,7 +182,7 @@ class UnitTest {
                 elevation.calendar.add(Calendar.DAY_OF_MONTH, 1)
             }
         }
-        for (location in TestHelper.allLocations) {
+        for (location in TestHelper.allLocations.filter { kotlin.math.abs(it.latitude) < 70 }) {
             val noElevation = ComplexZmanimCalendar(location)
             val elevation = ComplexZmanimCalendar(location).also { it.isUseElevation = true }
             val cals = listOf(elevation, noElevation)

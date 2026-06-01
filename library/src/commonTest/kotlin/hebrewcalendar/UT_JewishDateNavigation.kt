@@ -4,10 +4,10 @@
 package hebrewcalendar
 
 import kotlinx.datetime.number
-import kotlin.test.*
-import kotlin.test.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewMonth
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 /**
  *

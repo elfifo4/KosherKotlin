@@ -3,9 +3,10 @@
  */
 package hebrewcalendar
 
-import kotlin.test.*
-import kotlin.test.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
+import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 /**
  * Verify correct calculations of when a Hebrew leap year occurs.
