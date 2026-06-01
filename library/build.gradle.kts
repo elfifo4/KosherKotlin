@@ -58,7 +58,7 @@ mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates("io.github.elfifo4", "kosherkotlin", "1.0.0")
+    coordinates("io.github.elfifo4", "kosherkotlin", version.toString())
 
     pom {
         name = "KosherKotlin"
