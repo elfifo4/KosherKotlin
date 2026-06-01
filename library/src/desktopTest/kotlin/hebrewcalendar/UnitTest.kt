@@ -90,7 +90,7 @@ class UnitTest {
                 elevation,
                 timeZone.toJava()
             )
-        for (location in listOf(TestHelper.arcticNunavut)) {
+        for (location in TestHelper.allLocations.filter { kotlin.math.abs(it.latitude) < 70 }) {
             val elevation = com.kosherjava.zmanim.ComplexZmanimCalendar(location.toJava())
                 .apply { isUseElevation = true }
             val noElevation = com.kosherjava.zmanim.ComplexZmanimCalendar(location.toJava())
@@ -99,7 +99,7 @@ class UnitTest {
                 .apply { isUseElevation = false }
 
 
-            var date = java.time.LocalDate.of(1, 9, 8)
+            var date = java.time.LocalDate.of(1900, 1, 1) // NOAA algorithm is reliable from ~1800 CE onward
             val year6000 = HebrewLocalDate(6000, HebrewMonth.TISHREI, 1).toLocalDateGregorian().toJavaLocalDate()
             val midnight = java.time.LocalTime.of(0, 0, 0)
 
