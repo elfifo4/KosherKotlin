@@ -18,7 +18,6 @@ package sternbach.software.kosherkotlin.util
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
-import sternbach.software.kosherkotlin.hebrewcalendar.*
 import kotlin.math.*
 
 /**
@@ -39,7 +38,7 @@ class NOAACalculator : AstronomicalCalculator() {
      * @see com.kosherjava.zmanim.util.AstronomicalCalculator.getUTCSunrise
      */
     override fun getUTCSunrise(
-        LocalDate: LocalDate,
+        localDate: LocalDate,
         geoLocation: GeoLocation,
         zenith: Double,
         adjustForElevation: Boolean
@@ -47,7 +46,7 @@ class NOAACalculator : AstronomicalCalculator() {
         val elevation = if (adjustForElevation) geoLocation.elevation else 0.0
         val adjustedZenith: Double = adjustZenith(zenith, elevation)
         var sunrise: Double = getSunriseUTC(
-            DateUtils.getJulianDay(LocalDate), geoLocation.latitude, -geoLocation.longitude,
+            DateUtils.getJulianDay(localDate), geoLocation.latitude, -geoLocation.longitude,
             adjustedZenith
         )
 //        println("kelevation: $elevation, adjustedZenith: $adjustedZenith, sunrise: $sunrise")
@@ -63,7 +62,7 @@ class NOAACalculator : AstronomicalCalculator() {
      * @see com.kosherjava.zmanim.util.AstronomicalCalculator.getUTCSunset
      */
     override fun getUTCSunset(
-        LocalDate: LocalDate,
+        localDate: LocalDate,
         geoLocation: GeoLocation,
         zenith: Double,
         adjustForElevation: Boolean
@@ -71,7 +70,7 @@ class NOAACalculator : AstronomicalCalculator() {
         val elevation: Double = if (adjustForElevation) geoLocation.elevation else 0.0
         val adjustedZenith: Double = adjustZenith(zenith, elevation)
         var sunset: Double = getSunsetUTC(
-            DateUtils.getJulianDay(LocalDate), geoLocation.latitude, -geoLocation.longitude,
+            DateUtils.getJulianDay(localDate), geoLocation.latitude, -geoLocation.longitude,
             adjustedZenith
         )
         sunset /= 60

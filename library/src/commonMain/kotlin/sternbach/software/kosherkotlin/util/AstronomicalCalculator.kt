@@ -132,7 +132,7 @@ abstract class AstronomicalCalculator {
      * @see .getElevationAdjustment
      */
     abstract fun getUTCSunrise(
-        LocalDate: LocalDate, geoLocation: GeoLocation, zenith: Double,
+        localDate: LocalDate, geoLocation: GeoLocation, zenith: Double,
         adjustForElevation: Boolean,
     ): Double
 
@@ -140,7 +140,7 @@ abstract class AstronomicalCalculator {
      * A method that calculates UTC sunset as well as any time based on an angle above or below sunset. This abstract
      * method is implemented by the classes that extend this class.
      *
-     * @param LocalDate
+     * @param localDate
      * Used to calculate day of year.
      * @param geoLocation
      * The location information used for astronomical calculating sun times.
@@ -157,7 +157,7 @@ abstract class AstronomicalCalculator {
      * @see .getElevationAdjustment
      */
     abstract fun getUTCSunset(
-        LocalDate: LocalDate, geoLocation: GeoLocation, zenith: Double,
+        localDate: LocalDate, geoLocation: GeoLocation, zenith: Double,
         adjustForElevation: Boolean,
     ): Double
 

@@ -443,11 +443,11 @@ data class GeoLocation(
         sb.append("\t<Latitude>").append(latitude).append("</Latitude>\n")
         sb.append("\t<Longitude>").append(longitude).append("</Longitude>\n")
         sb.append("\t<Elevation>").append(elevation).append(" Meters").append("</Elevation>\n")
-        sb.append("\t<TimezoneName>").append(timeZone!!.id).append("</TimezoneName>\n")
-        sb.append("\t<TimeZoneDisplayName>").append(timeZone!!.id).append("</TimeZoneDisplayName>\n") //TODO kinda broke with kotlinx
-        sb.append("\t<TimezoneGMTOffset>").append(timeZone!!.rawOffset / HOUR_MILLIS)
+        sb.append("\t<TimezoneName>").append(timeZone.id).append("</TimezoneName>\n")
+        sb.append("\t<TimeZoneDisplayName>").append(timeZone.id).append("</TimeZoneDisplayName>\n") //TODO kinda broke with kotlinx
+        sb.append("\t<TimezoneGMTOffset>").append(timeZone.rawOffset / HOUR_MILLIS)
             .append("</TimezoneGMTOffset>\n")
-        sb.append("\t<TimezoneDSTOffset>").append(timeZone!!.rawOffset / HOUR_MILLIS)//TODO kinda broke with kotlinx
+        sb.append("\t<TimezoneDSTOffset>").append(timeZone.rawOffset / HOUR_MILLIS)//TODO kinda broke with kotlinx
             .append("</TimezoneDSTOffset>\n")
         sb.append("</GeoLocation>")
         return sb.toString()
