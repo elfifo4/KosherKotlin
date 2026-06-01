@@ -171,7 +171,7 @@ class ConvertBetweenGregorianAndHebrewTest {
             assertEquals(javaCurrentJewishDate.gregorianMonth + 1, kotlinGregorian.monthNumber)
             assertEquals(javaCurrentJewishDate.gregorianDayOfMonth, kotlinGregorian.dayOfMonth)
 
-            javaCurrentJewishDate.forward(Calendar.DATE, 1);
+            javaCurrentJewishDate.forward(Calendar.DATE, 1)
             kotlinCurrentJewishDate = kotlinCurrentJewishDate.plusDays(1)
         }
     }

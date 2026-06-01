@@ -435,7 +435,7 @@ class RegressionTest {
                     shaahZmanis120MinutesZmanis,
                     "shaahZmanis120MinutesZmanis"
                 ),
-            );
+            )
 
             //            println("Ahavat shalom kotlin: $kotlinMGAhavatShalom")
 //            println("Ahavat shalom java: $javaMGAhavatShalom")

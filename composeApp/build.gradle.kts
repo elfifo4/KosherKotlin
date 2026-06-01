@@ -47,10 +47,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":library"))
-                implementation(compose.runtime)
-                implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
-                implementation(compose.components.resources)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.material3)
+                implementation(libs.compose.material.icons.extended)
+                implementation(libs.compose.components.resources)
                 implementation(libs.napier)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
@@ -75,14 +75,14 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(compose.desktop.common)
+                implementation(libs.compose.desktop.common)
                 implementation(compose.desktop.currentOs)
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation(compose.html.core)
+                implementation(libs.compose.html.core)
             }
         }
 
