@@ -157,10 +157,10 @@ open class JewishDate : Comparable<JewishDate> {
      */
     private fun absDateToDate(absDate: Int) {
         var year = absDate / 366 // Search forward year by year from approximate year
-        while (absDate >= gregorianDateToAbsDate(LocalDate(year + 1, 1, 1))) year++
+        while (absDate >= gregorianDateToAbsDate(LocalDate(year = year + 1, month = 1, day = 1))) year++
         var month = 1 // Search forward month by month from January
-        while (absDate > gregorianDateToAbsDate(LocalDate(year, month, getLastDayOfGregorianMonth(month, year)))) month++
-        val dayOfMonth = absDate - gregorianDateToAbsDate(LocalDate(year, month, 1)) + 1
+        while (absDate > gregorianDateToAbsDate(LocalDate(year = year, month = month, day = getLastDayOfGregorianMonth(month, year)))) month++
+        val dayOfMonth = absDate - gregorianDateToAbsDate(LocalDate(year = year, month = month, day = 1)) + 1
         setGregorianDate(year, month, dayOfMonth)
     }
 
@@ -308,7 +308,7 @@ open class JewishDate : Comparable<JewishDate> {
      * (e.g. February 29 in a leap year)
      */
     fun setGregorianDate(year: Int, month: Int, dayOfMonth: Int): JewishDate {
-        gregorianLocalDate = LocalDate(year, month, dayOfMonth.coerceAtMost(getLastDayOfGregorianMonth(month, year)))
+        gregorianLocalDate = LocalDate(year = year, month = month, day = dayOfMonth.coerceAtMost(getLastDayOfGregorianMonth(month, year)))
         hebrewLocalDate = gregorianLocalDate.toHebrewDate()
         return this
     }

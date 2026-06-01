@@ -10,6 +10,7 @@ import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
 /**
  * Verify correct calculations of when a Hebrew leap year occurs.
  */
+@Suppress("ClassName")
 class UT_JewishLeapYear {
     @Test
     fun isLeapYear() {

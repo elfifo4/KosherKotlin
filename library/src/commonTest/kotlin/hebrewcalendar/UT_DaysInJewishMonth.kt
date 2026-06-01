@@ -4,14 +4,13 @@
 package hebrewcalendar
 
 import kotlin.test.*
-import kotlin.test.*
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
 
 /**
  * Validate the days in a Hebrew month (in various types of years) are correct.
  */
+@Suppress("ClassName")
 class UT_DaysInJewishMonth {
 
     @Test

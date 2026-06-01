@@ -25,7 +25,7 @@ class UT_GregorianDateNavigation {
         cal[Calendar.YEAR] = 2011
         cal[Calendar.MONTH] = Calendar.JANUARY
         cal[Calendar.DATE] = 31
-        hebrewDate = JewishDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate = JewishDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         assertProperties(
             null,
             null,
@@ -154,7 +154,7 @@ class UT_GregorianDateNavigation {
         cal[Calendar.YEAR] = 2011
         cal[Calendar.MONTH] = Calendar.JANUARY
         cal[Calendar.DATE] = 1
-        hebrewDate = JewishDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate = JewishDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         assertProperties(
             null,
             null,
@@ -294,7 +294,7 @@ class UT_GregorianDateNavigation {
     ) {
         if (month != null) cal[Calendar.MONTH] = month
         if (day != null) cal[Calendar.DATE] = day
-        if (setDateBeforeAssert) hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        if (setDateBeforeAssert) hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         if (moveDateForwardBeforeAssert) hebrewDate.forward(DateTimeUnit.DAY, 1)
         if (moveDateBackwardBeforeAssert) hebrewDate.back()
         for ((expected, actual) in expectedToActual) assertEquals(expected.toInt(), hebrewDate.actual())
@@ -311,7 +311,7 @@ class UT_GregorianDateNavigation {
     ) {
         if (month != null) cal[Calendar.MONTH] = month
         if (day != null) cal[Calendar.DATE] = day
-        if (setDateBeforeAssert) hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        if (setDateBeforeAssert) hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         if (moveDateForwardBeforeAssert) hebrewDate.forward(DateTimeUnit.DAY, 1)
         if (moveDateBackwardBeforeAssert) hebrewDate.back()
         for ((expected, actual) in expectedToActual) assertEquals(expected.toInt(), hebrewDate.actual())

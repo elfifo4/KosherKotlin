@@ -29,7 +29,7 @@ class UT_DaysInGregorianMonth {
     fun testDaysInMonth() {
         cal[Calendar.YEAR] = 2011
         cal[Calendar.MONTH] = Calendar.JANUARY
-        hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         hebrewDate.assertDaysInMonth(false)
     }
 
@@ -37,7 +37,7 @@ class UT_DaysInGregorianMonth {
     fun testDaysInMonthLeapYear() {
         cal[Calendar.YEAR] = 2012
         cal[Calendar.MONTH] = Calendar.JANUARY
-        hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         hebrewDate.assertDaysInMonth(true)
     }
 
@@ -45,7 +45,7 @@ class UT_DaysInGregorianMonth {
     fun testDaysInMonth100Year() {
         cal[Calendar.YEAR] = 2100
         cal[Calendar.MONTH] = Calendar.JANUARY
-        hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         hebrewDate.assertDaysInMonth(false)
     }
 
@@ -53,7 +53,7 @@ class UT_DaysInGregorianMonth {
     fun testDaysInMonth400Year() {
         cal[Calendar.YEAR] = 2000
         cal[Calendar.MONTH] = Calendar.JANUARY
-        hebrewDate.setDate(LocalDate(cal[Calendar.YEAR], cal[Calendar.MONTH] + 1, cal[Calendar.DAY_OF_MONTH]))
+        hebrewDate.setDate(LocalDate(year = cal[Calendar.YEAR], month = cal[Calendar.MONTH] + 1, day = cal[Calendar.DAY_OF_MONTH]))
         hebrewDate.assertDaysInMonth(true)
     }
 

@@ -114,7 +114,7 @@ class ConvertBetweenGregorianAndHebrewTest {
             HebrewLocalDate.STARTING_DATE_GREGORIAN,
             HebrewLocalDate.STARTING_DATE_HEBREW.toLocalDateGregorian()
         )
-        val distantFuture = LocalDate(100_000, 1, 1)
+        val distantFuture = LocalDate(year = 100_000, month = 1, day = 1)
         val distantFutureHebrew = HebrewLocalDate(103759, HebrewMonth.CHESHVAN, 22)
         assertEquals(distantFuture, distantFutureHebrew.toLocalDateGregorian())
     }
@@ -123,7 +123,7 @@ class ConvertBetweenGregorianAndHebrewTest {
     fun `gregorian to hebrew - min and max date`() {
         assertEquals(HebrewLocalDate.STARTING_DATE_HEBREW, HebrewLocalDate.STARTING_DATE_GREGORIAN.toHebrewDate())
         val distantFutureHebrew = HebrewLocalDate(103_759, HebrewMonth.CHESHVAN, 22)
-        val distantFuture = LocalDate(100_000, 1, 1)
+        val distantFuture = LocalDate(year = 100_000, month = 1, day = 1)
         assertEquals(distantFutureHebrew, distantFuture.toHebrewDate())
     }
 
@@ -179,7 +179,7 @@ class ConvertBetweenGregorianAndHebrewTest {
     @Test
     fun `6th month doesn't work (for some reason)`() {
         val hebrew = HebrewLocalDate(4483, HebrewMonth.ELUL, 29)
-        val gregorian = LocalDate(723, 9, 9)
+        val gregorian = LocalDate(year = 723, month = 9, day = 9)
         assertEquals(hebrew, gregorian.toHebrewDate())
         assertEquals(gregorian, hebrew.toLocalDateGregorian())
     }

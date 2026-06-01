@@ -6,6 +6,7 @@ import sternbach.software.kosherkotlin.hebrewcalendar.HebrewDateFormatter
 import sternbach.software.kosherkotlin.hebrewcalendar.HebrewMonth
 import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar
 
+@Suppress("ClassName")
 class UT_YerushalmiTest {
     @Test
     fun testCorrectDaf1() {

@@ -14,7 +14,7 @@ class JewishCalendarParshaRegressionTest {
     @Test
     fun `18 Nissan 5786 should return Shmini`() {
         val calendar = JewishCalendar(
-            LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 5),
+            LocalDate(year = 2026, month = 4, day = 5),
         )
 
         assertEquals(
@@ -26,7 +26,7 @@ class JewishCalendarParshaRegressionTest {
     @Test
     fun `one week later should return Tazria Metzora`() {
         val calendar = JewishCalendar(
-            LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 12),
+            LocalDate(year = 2026, month = 4, day = 12),
         )
 
         assertEquals(
@@ -38,7 +38,7 @@ class JewishCalendarParshaRegressionTest {
     @Test
     fun `formatParsha should match Shmini on 18 Nissan 5786`() {
         val calendar = JewishCalendar(
-            LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 11),
+            LocalDate(year = 2026, month = 4, day = 11),
         )
         val formatter = HebrewDateFormatter()
 
@@ -51,7 +51,7 @@ class JewishCalendarParshaRegressionTest {
     @Test
     fun `formatParsha should match Tazria Metzora one week later`() {
         val calendar = JewishCalendar(
-            LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 18),
+            LocalDate(year = 2026, month = 4, day = 18),
         )
         val formatter = HebrewDateFormatter()
 
@@ -119,12 +119,12 @@ class JewishCalendarParshaRegressionTest {
 
     @Test
     fun `upcomingParshah should remain stable throughout the same week before Shabbos`() {
-        val sunday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 5))
-        val monday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 6))
-        val tuesday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 7))
-        val wednesday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 8))
-        val thursday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 9))
-        val friday = JewishCalendar(LocalDate(year = 2026, monthNumber = 4, dayOfMonth = 10))
+        val sunday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 5))
+        val monday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 6))
+        val tuesday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 7))
+        val wednesday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 8))
+        val thursday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 9))
+        val friday = JewishCalendar(LocalDate(year = 2026, month = 4, day = 10))
 
         assertEquals(JewishCalendar.Parsha.SHMINI, sunday.upcomingParshah)
         assertEquals(JewishCalendar.Parsha.SHMINI, monday.upcomingParshah)

@@ -11,6 +11,7 @@ import sternbach.software.kosherkotlin.hebrewcalendar.JewishDate
 /**
  *
  */
+@Suppress("ClassName")
 class UT_JewishDateNavigation {
 
     @Test
