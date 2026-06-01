@@ -6,7 +6,7 @@ import sternbach.software.kosherkotlin.util.GeoLocation
 import kotlinx.datetime.*
 
 fun main(args: Array<String>) {
-    println(Clock.System.now().toString())
+    println(kotlin.time.Clock.System.now().toString())
     /*val tz = java.util.TimeZone.getTimeZone("America/Toronto")
     val fortConger =
         com.kosherjava.java.zmanim.util.GeoLocation("Fort Conger, NU Canada", 81.7449398, -64.7945858, 127.0, tz)
@@ -78,7 +78,7 @@ val lakewood = GeoLocation("Lakewood, NJ", 40.0721087, -74.2400243, 15.0, kotlin
     /*for (location in allLocations) {
         val elevation = com.kosherjava.java.zmanim.ComplexZmanimCalendar(location.toJava()).apply { isUseElevation = true }
         val noElevation = com.kosherjava.java.zmanim.ComplexZmanimCalendar(location.toJava()).apply { isUseElevation = false }
-        var date = LocalDate(2023,1,1)
+        var date = LocalDate(year = 2023, month = 1, day = 1)
         val dateTime = LocalDateTime(date, midnight)
         noElevation.calendar = java.util.Calendar.getInstance(location.timeZone.toJava()).apply {
             set(java.util.Calendar.YEAR, dateTime.year)

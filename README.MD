@@ -19,9 +19,20 @@ For a basic set of instructions on the use of the API, see [How to Use the Zmani
 
 ## Dependency
 
-This library uses Kotlinx-DateTime and is KMP-friendly. There are plans to add it to mavenCentral in the near future. Until then, you can copy the `kosherkotlin` folder into your project.
+The library is published to Maven Central. Add it to your project:
 
-If you only need Kotlin/JVM support, you can checkout [the commit before the transition](https://github.com/Sternbach-Software/KosherKotlin/commit/177ab9314e468f19fcd04ec47eb22d12eccf2210), when the library only supported Kotlin/JVM and was tested and stable, and copy the files in `zmanim`.
+```kotlin
+// build.gradle.kts
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.elfifo4:kosherkotlin:1.0.0")
+}
+```
+
+The library supports Android, JVM (Desktop), iOS (arm64, x64, simulatorArm64), and JavaScript.
 
 ## Building from source
 
@@ -80,10 +91,59 @@ Hosted documentation coming soon!
 # Future
 - [x] ~~There are plans to port the library to `kotlinx-datetime` so that it is multi-platform friendly. This is a major overhaul - PRs are welcomed.~~
     - [ ] ZmanimFormatter needs to be re-written once kotlinx-datetime implements formatting
-- [ ] Library distribution needs to be improved (e.g. publishing to mavenCentral, etc.), especially in light of the kotlinx-datetime port (not sure it builds properly)
-    - [ ] May need to implement multi-project gradle - not sure how to do that yet.
+- [x] ~~Library distribution needs to be improved (e.g. publishing to mavenCentral, etc.)~~
+    - Published to Maven Central as `io.github.elfifo4:kosherkotlin`
 - [ ] There are still a significant amount of javadocs/kdocs that were written for specific Java getters, setters, or properties, which were combined into a public property, and all of the javadocs/kdocs were copied to the property. They must be combined. There is often overlap or complete duplication between doc strings, but sometimes there are notes only relevant to the setter or getter.
 - [ ] Unit tests need to be ported from upstream. They are (slowly) being translated into Java from the Python port.
+
+# Publishing a New Release
+
+This section is for maintainers.
+
+### Prerequisites
+
+`~/.gradle/gradle.properties` must contain:
+
+```properties
+mavenCentralUsername=<token from central.sonatype.com → View Account → Generate User Token>
+mavenCentralPassword=<token password>
+signingInMemoryKey=<GPG private key as a single line with \n separators>
+signingInMemoryKeyPassword=<GPG key passphrase>
+```
+
+To convert your GPG private key to the required single-line format:
+
+```bash
+awk '{printf "%s\\n", $0}' ~/private-key.asc
+```
+
+### Steps
+
+1. Update `version` in [`library/build.gradle.kts`](library/build.gradle.kts)
+2. Commit and tag the release:
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+3. Publish:
+   ```bash
+   ./gradlew :library:publishAndReleaseToMavenCentral --no-configuration-cache
+   ```
+4. Verify the deployment at [central.sonatype.com/publishing/deployments](https://central.sonatype.com/publishing/deployments)
+5. After 15–30 minutes verify the artifact is live:
+   ```
+   https://repo1.maven.org/maven2/io/github/elfifo4/kosherkotlin/
+   ```
+
+### Testing before release
+
+```bash
+# Verify JARs and POM are generated correctly
+./gradlew :library:publishToMavenLocal
+
+# Inspect output
+find ~/.m2/repository/io/github/elfifo4 -name "*.pom" | sort
+```
 
 # Projects using this library
 - [BeautifulZmanim](https://github.com/Sternbach-Software/BeautifulZmanim): a multi-platform zmanim app for desktop, web, and mobile. Written using Jetpack Compose.
