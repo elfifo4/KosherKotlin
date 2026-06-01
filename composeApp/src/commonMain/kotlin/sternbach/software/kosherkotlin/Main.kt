@@ -6,7 +6,7 @@ import sternbach.software.kosherkotlin.util.GeoLocation
 import kotlinx.datetime.*
 
 fun main(args: Array<String>) {
-    println(Clock.System.now().toString())
+    println(kotlin.time.Clock.System.now().toString())
     /*val tz = java.util.TimeZone.getTimeZone("America/Toronto")
     val fortConger =
         com.kosherjava.java.zmanim.util.GeoLocation("Fort Conger, NU Canada", 81.7449398, -64.7945858, 127.0, tz)
