@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
@@ -7,7 +5,7 @@ plugins {
     alias(libs.plugins.vanniktech.publish)
 }
 
-group = "io.github.elad-finish"
+group = "io.github.elfifo4"
 version = "1.0.0"
 
 kotlin {
@@ -49,17 +47,17 @@ kotlin {
         val desktopTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("com.kosherjava:zmanim:2.5.0")
+                implementation(libs.kosherjava.zmanim)
             }
         }
     }
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     signAllPublications()
 
-    coordinates("io.github.elad-finish", "kosherkotlin", "1.0.0")
+    coordinates("io.github.elfifo4", "kosherkotlin", "1.0.0")
 
     pom {
         name = "KosherKotlin"
