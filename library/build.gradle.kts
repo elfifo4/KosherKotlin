@@ -62,7 +62,7 @@ mavenPublishing {
     pom {
         name = "KosherKotlin"
         description = "Kotlin Multiplatform port of KosherJava — Jewish calendar & zmanim calculations"
-        url = "https://github.com/elad-finish/KosherKotlin"
+        url = "https://github.com/elfifo4/KosherKotlin"
         licenses {
             license {
                 name = "GNU Lesser General Public License v2.1"
@@ -79,7 +79,7 @@ mavenPublishing {
         scm {
             connection = "scm:git:github.com/elad-finish/KosherKotlin.git"
             developerConnection = "scm:git:ssh://github.com/elad-finish/KosherKotlin.git"
-            url = "https://github.com/elad-finish/KosherKotlin"
+            url = "https://github.com/elfifo4/KosherKotlin"
         }
     }
 }
