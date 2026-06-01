@@ -72,6 +72,7 @@ class UT_DaysInJewishMonth {
         assertFalse(jewishDate.isKislevShort)
     }
 
+    @Suppress("SameParameterValue")
     private fun assertQesidrahLeap(year: Int) {
         val jewishDate = JewishDate(year, 1, 1)
         assertEquals(year, jewishDate.hebrewLocalDate.year.toInt())

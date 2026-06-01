@@ -14,6 +14,7 @@ import java.util.Calendar
  * Verify the calculation of the number of days in a month. Not too hard...just the rules about when February
  * has 28 or 29 days...
  */
+@Suppress("ClassName")
 class UT_DaysInGregorianMonth {
 
     lateinit var hebrewDate: JewishDate

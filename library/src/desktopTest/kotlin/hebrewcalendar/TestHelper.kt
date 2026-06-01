@@ -25,7 +25,7 @@ object TestHelper {
     val allLocations = basicLocations + arcticLocations
     val allJavaLocations = allLocations.map { it.toJava() }
     val basicJavaLocations = basicLocations.map { it.toJava() }
-    fun sternbach.software.kosherkotlin.util.GeoLocation.toJava() =
+    fun GeoLocation.toJava() =
         com.kosherjava.zmanim.util.GeoLocation(
             locationName,
             latitude,
