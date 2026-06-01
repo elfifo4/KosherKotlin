@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.android.application)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.kotlinx.serialization)
@@ -18,6 +19,8 @@ kotlin {
             }
         }
     }
+
+    jvmToolchain(17)
 
     jvm("desktop")
 
@@ -45,6 +48,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
+                api(project(":library"))
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
