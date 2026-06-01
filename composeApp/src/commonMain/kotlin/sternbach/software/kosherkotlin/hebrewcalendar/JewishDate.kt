@@ -73,6 +73,7 @@ open class JewishDate : Comparable<JewishDate> {
         val conjunctionParts = (molad - conjunctionDay * CHALAKIM_PER_DAY.toLong()).toInt()
         setMoladTime(conjunctionParts)
     }
+
     /**
      * Creates a Jewish date based on a Jewish year, month and day of month.
      *
@@ -93,10 +94,17 @@ open class JewishDate : Comparable<JewishDate> {
     constructor(hebrewYear: Long, hebrewMonth: HebrewMonth, hebrewDayOfMonth: Int) {
         setJewishDate(hebrewYear, hebrewMonth, hebrewDayOfMonth)
     }
-    constructor(hebrewYear: Int, hebrewMonth: Int, hebrewDayOfMonth: Int) : this(hebrewYear, HebrewMonth.getMonthForValue(hebrewMonth), hebrewDayOfMonth)
+
+    constructor(hebrewYear: Int, hebrewMonth: Int, hebrewDayOfMonth: Int) : this(
+        hebrewYear,
+        HebrewMonth.getMonthForValue(hebrewMonth),
+        hebrewDayOfMonth
+    )
+
     constructor(localDate: LocalDate) {
         setDate(localDate)
     }
+
     constructor(hebrewLocalDate: HebrewLocalDate) {
         setJewishDate(hebrewLocalDate)
     }
@@ -326,6 +334,7 @@ open class JewishDate : Comparable<JewishDate> {
         hebrewLocalDate.month,
         hebrewLocalDate.dayOfMonth
     )
+
     fun setJewishDate(year: Long, month: HebrewMonth, dayOfMonth: Int): JewishDate {
         setJewishDate(year, month, dayOfMonth, 0, 0, 0)
         return this
@@ -375,7 +384,7 @@ open class JewishDate : Comparable<JewishDate> {
         moladHours = hours
         moladMinutes = minutes
         moladChalakim = chalakim
-        gregorianLocalDate = date.toLocalDateGregorian() 
+        gregorianLocalDate = date.toLocalDateGregorian()
         return this
     }
 
@@ -448,6 +457,7 @@ open class JewishDate : Comparable<JewishDate> {
                     }
                 }
             }
+
             DateTimeUnit.MONTH -> forwardJewishMonth(amount)
             DateTimeUnit.YEAR -> jewishYear = hebrewLocalDate.year + amount
             else -> {
@@ -503,10 +513,16 @@ open class JewishDate : Comparable<JewishDate> {
         // change Jewish date
         hebrewLocalDate = if (hebrewLocalDate.dayOfMonth == 1) { // if first day of the Jewish month
             when (hebrewLocalDate.month) {
-                HebrewMonth.NISSAN -> HebrewLocalDate(hebrewLocalDate.year, getLastMonthOfJewishYear(hebrewLocalDate.year), daysInJewishMonth)
+                HebrewMonth.NISSAN -> HebrewLocalDate(
+                    hebrewLocalDate.year,
+                    getLastMonthOfJewishYear(hebrewLocalDate.year),
+                    daysInJewishMonth
+                )
+
                 HebrewMonth.TISHREI -> { // if Rosh Hashana
                     HebrewLocalDate(hebrewLocalDate.year - 1, hebrewLocalDate.month.previousMonth, daysInJewishMonth)
                 }
+
                 else -> HebrewLocalDate(hebrewLocalDate.year, hebrewLocalDate.month.previousMonth, daysInJewishMonth)
             }
         } else {
@@ -546,11 +562,16 @@ open class JewishDate : Comparable<JewishDate> {
          * (in the current implementation) if a year of < [HebrewLocalDate.STARTING_DATE_HEBREW]
          * (Tishrei 1, 0002/Sep. 6, 1 AD in current implementation) is passed in. TODO
          */
-        set(value) { setJewishDate(value, hebrewLocalDate.month, hebrewLocalDate.dayOfMonth) }
+        set(value) {
+            setJewishDate(value, hebrewLocalDate.month, hebrewLocalDate.dayOfMonth)
+        }
 
     var jewishMonth: HebrewMonth
-        set(value) { setJewishDate(hebrewLocalDate.year, value, hebrewLocalDate.dayOfMonth) }
+        set(value) {
+            setJewishDate(hebrewLocalDate.year, value, hebrewLocalDate.dayOfMonth)
+        }
         get() = hebrewLocalDate.month
+
     /**
      * The Jewish day of month.
      */
@@ -565,10 +586,11 @@ open class JewishDate : Comparable<JewishDate> {
          * **Note:** If [jewishMonth] does not have [dayOfMonth] days in the current [jewishYear], this setter will
          * correct the value instead of throwing an error.
          * */
-        set(dayOfMonth) { setJewishDate(hebrewLocalDate.year, hebrewLocalDate.month, dayOfMonth) }
+        set(dayOfMonth) {
+            setJewishDate(hebrewLocalDate.year, hebrewLocalDate.month, dayOfMonth)
+        }
 
     var gregorianYear
-
         /**
          * sets the Gregorian year.
          *
@@ -580,7 +602,9 @@ open class JewishDate : Comparable<JewishDate> {
          * **Note:** This setter will correct the [dayOfMonth] if passed in an invalid number given the [year] and [month]
          * (e.g. February 29 in a leap year)
          */
-        set(value) { setGregorianDate(value, gregorianLocalDate.monthNumber, gregorianLocalDate.dayOfMonth) }
+        set(value) {
+            setGregorianDate(value, gregorianLocalDate.monthNumber, gregorianLocalDate.dayOfMonth)
+        }
         get() = gregorianLocalDate.year
 
     var gregorianMonth
@@ -596,7 +620,9 @@ open class JewishDate : Comparable<JewishDate> {
          * **Note:** This setter will correct the [value] if passed in an invalid number given the [gregorianYear] and [gregorianMonth]
          * (e.g. February 29 in a leap year)
          */
-        set(value) { setGregorianDate(gregorianLocalDate.year, value, gregorianLocalDate.dayOfMonth) }
+        set(value) {
+            setGregorianDate(gregorianLocalDate.year, value, gregorianLocalDate.dayOfMonth)
+        }
         get() = gregorianLocalDate.monthNumber
 
     var gregorianDayOfMonth
@@ -612,7 +638,9 @@ open class JewishDate : Comparable<JewishDate> {
          * **Note:** This setter will correct the [value] if passed in an invalid number given the [gregorianYear] and [gregorianMonth]
          * (e.g. February 29 in a leap year)
          */
-        set(value) { setGregorianDate(gregorianLocalDate.year, gregorianLocalDate.monthNumber, value) }
+        set(value) {
+            setGregorianDate(gregorianLocalDate.year, gregorianLocalDate.monthNumber, value)
+        }
         get() = gregorianLocalDate.dayOfMonth
 
 
@@ -630,7 +658,11 @@ open class JewishDate : Comparable<JewishDate> {
         return this
     }
 
-    val Int.lastDayOfGregorianMonth get() = getLastDayOfGregorianMonth(this, gregorianLocalDate.year) //TODO is this an easily-abusable/confusing API because it is scoped to the current instance's year?
+    val Int.lastDayOfGregorianMonth
+        get() = getLastDayOfGregorianMonth(
+            this,
+            gregorianLocalDate.year
+        ) //TODO is this an easily-abusable/confusing API because it is scoped to the current instance's year?
 
     /**
      * A method that creates a [deep copy](http://en.wikipedia.org/wiki/Object_copy#Deep_copy) of the object.
@@ -650,7 +682,7 @@ open class JewishDate : Comparable<JewishDate> {
     fun copy(
         hebrewYear: Long = hebrewLocalDate.year,
         month: HebrewMonth = hebrewLocalDate.month,
-        hebrewDayOfMonth: Int = hebrewLocalDate.dayOfMonth
+        hebrewDayOfMonth: Int = hebrewLocalDate.dayOfMonth,
     ): JewishDate = JewishDate(hebrewYear, month, hebrewDayOfMonth)
 
     /**
@@ -831,7 +863,9 @@ open class JewishDate : Comparable<JewishDate> {
          * @param moladParts the molad parts
          * @return the number of elapsed days in the JewishCalendar adjusted for the 4 dechiyos.
          */
-        private fun addDechiyos(year: Int, moladDay: Int, moladParts: Int): Int = addDechiyos(year.toLong(), moladDay.toLong(), moladParts).toInt()
+        private fun addDechiyos(year: Int, moladDay: Int, moladParts: Int): Int =
+            addDechiyos(year.toLong(), moladDay.toLong(), moladParts).toInt()
+
         private fun addDechiyos(year: Long, moladDay: Long, moladParts: Int): Long {
             var roshHashanaDay = moladDay // if no dechiyos
             // delay Rosh Hashana for the dechiyos of the Molad - new moon 1 - Molad Zaken, 2- GaTRaD 3- BeTuTaKFoT
@@ -911,7 +945,7 @@ open class JewishDate : Comparable<JewishDate> {
         private fun validateJewishDate(
             hours: Int,
             minutes: Int,
-            chalakim: Int
+            chalakim: Int,
         ) {
             require(!(hours < 0 || hours > 23)) { "Hours < 0 or > 23 can't be set. $hours is invalid." }
             require(!(minutes < 0 || minutes > 59)) { "Minutes < 0 or > 59 can't be set. $minutes is invalid." }
@@ -989,7 +1023,7 @@ open class JewishDate : Comparable<JewishDate> {
         private fun moladToAbsDate(chalakim: Long): Int = (chalakim / CHALAKIM_PER_DAY).toInt() + HebrewLocalDate.JEWISH_EPOCH
 
         /**
-         * returns the number of days from Rosh Hashana of the date passed in, to the full date passed in.
+         * Returns the number of days from Rosh Hashana of the date passed in, to the full date passed in.
          *
          * @param year
          * the Jewish year
@@ -1001,14 +1035,23 @@ open class JewishDate : Comparable<JewishDate> {
          */
         fun getDaysSinceStartOfJewishYear(year: Long, month: HebrewMonth, dayOfMonth: Int): Int {
             var elapsedDays = dayOfMonth
+
             // Before Tishrei (from Nissan to Tishrei), add days in prior months
-            if (month < HebrewMonth.TISHREI) {
+            if (month.value < HebrewMonth.TISHREI.value) {
                 // this year before and after Nisan.
-                for (m in HebrewMonth.TISHREI..getLastMonthOfJewishYear(year)) elapsedDays += getDaysInJewishMonth(m, year)
-                for (m in HebrewMonth.NISSAN until month) elapsedDays += getDaysInJewishMonth(m, year)
-            } else { // Add days in prior months this year
-                for (m in HebrewMonth.TISHREI until month) elapsedDays += getDaysInJewishMonth(m, year)
+                for (m in HebrewMonth.TISHREI.value..getLastMonthOfJewishYear(year).value) {
+                    elapsedDays += getDaysInJewishMonth(HebrewMonth.getMonthForValue(m), year)
+                }
+                for (m in HebrewMonth.NISSAN.value until month.value) {
+                    elapsedDays += getDaysInJewishMonth(HebrewMonth.getMonthForValue(m), year)
+                }
+            } else {
+                // Add days in prior months this year
+                for (m in HebrewMonth.TISHREI.value until month.value) {
+                    elapsedDays += getDaysInJewishMonth(HebrewMonth.getMonthForValue(m), year)
+                }
             }
+
             return elapsedDays
         }
     }
