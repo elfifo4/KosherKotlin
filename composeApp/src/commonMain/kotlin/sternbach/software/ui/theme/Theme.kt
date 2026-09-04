@@ -20,6 +20,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kosherkotlin.composeapp.generated.resources.Res
+import kosherkotlin.composeapp.generated.resources.noto_sans_hebrew
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.Font
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -93,13 +97,34 @@ private val AppShapes = Shapes(
     extraLarge = RoundedCornerShape(32.dp)
 )
 
-private val AppTypography = Typography(
-    bodyMedium = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun appTypography(): Typography {
+    val hebrewFontFamily = FontFamily(Font(Res.font.noto_sans_hebrew))
+    val base = Typography()
+    fun TextStyle.withHebrewFont() = copy(fontFamily = hebrewFontFamily)
+    return Typography(
+        displayLarge = base.displayLarge.withHebrewFont(),
+        displayMedium = base.displayMedium.withHebrewFont(),
+        displaySmall = base.displaySmall.withHebrewFont(),
+        headlineLarge = base.headlineLarge.withHebrewFont(),
+        headlineMedium = base.headlineMedium.withHebrewFont(),
+        headlineSmall = base.headlineSmall.withHebrewFont(),
+        titleLarge = base.titleLarge.withHebrewFont(),
+        titleMedium = base.titleMedium.withHebrewFont(),
+        titleSmall = base.titleSmall.withHebrewFont(),
+        bodyLarge = base.bodyLarge.withHebrewFont(),
+        bodyMedium = TextStyle(
+            fontFamily = hebrewFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp
+        ),
+        bodySmall = base.bodySmall.withHebrewFont(),
+        labelLarge = base.labelLarge.withHebrewFont(),
+        labelMedium = base.labelMedium.withHebrewFont(),
+        labelSmall = base.labelSmall.withHebrewFont(),
     )
-)
+}
 
 internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
@@ -116,7 +141,7 @@ internal fun AppTheme(
         SystemAppearance(!isDark)
         MaterialTheme(
             colorScheme = if (isDark) DarkColorScheme else LightColorScheme,
-            typography = AppTypography,
+            typography = appTypography(),
             shapes = AppShapes,
             content = {
                 Surface(content = content)
