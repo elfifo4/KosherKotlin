@@ -1,13 +1,10 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import sternbach.software.ui.App
-import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    onWasmReady {
-        CanvasBasedWindow("KosherKotlin") {
-            App()
-        }
+    ComposeViewport {
+        App()
     }
 }

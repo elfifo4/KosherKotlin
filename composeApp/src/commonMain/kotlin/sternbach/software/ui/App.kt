@@ -59,7 +59,7 @@ internal fun App() = AppTheme {
             Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(calc.allZmanim.sortedBy { it.momentOfOccurrence }) {
+            items(calc.allZmanim.filter { it.momentOfOccurrence != null }.sortedBy { it.momentOfOccurrence }) {
                 ElevatedCard(Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(8.dp)) {
                     Text(text = it.definition.type.friendlyNameHebrew, modifier = Modifier.fillParentMaxWidth(), textAlign = TextAlign.Center)
                     Text(text = fmt.formatShortDescription(it, true), modifier = Modifier.fillParentMaxWidth(), textAlign = TextAlign.Center)
