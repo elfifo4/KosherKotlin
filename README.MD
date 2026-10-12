@@ -1,25 +1,30 @@
-KosherKotlin Zmanim API
-=====================
+# KosherKotlin
 
-The KosherKotlin Zmanim library is a Kotlin Multiplatform API for a specialized calendar that can calculate different astronomical
-times including sunrise and sunset (default uses NOAA's algorithm) and Jewish _zmanim_ or religious times for prayers and other
-Jewish religious duties.
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.elfifo4/kosherkotlin)](https://central.sonatype.com/artifact/io.github.elfifo4/kosherkotlin)
+[![Unit tests](https://github.com/elfifo4/KosherKotlin/actions/workflows/pull_request_worklow.yml/badge.svg?branch=master)](https://github.com/elfifo4/KosherKotlin/actions/workflows/pull_request_worklow.yml)
+[![License: LGPL 2.1](https://img.shields.io/badge/license-LGPL%202.1-blue.svg)](LICENSE)
 
-It is based on Eliyahu Hershfeld's [KosherJava](https://github.com/KosherJava/zmanim).
+A Kotlin Multiplatform library for Jewish calendar and _zmanim_ calculations: sunrise, sunset and
+other astronomical times (NOAA algorithm by default), halachic times for prayer and other religious
+duties, Hebrew dates, holidays, the weekly _parsha_ and _Daf Yomi_.
 
-For non religious astronomical / solar calculations use the [AstronomicalCalendar](./composeApp/src/commonMain/sternbach/software/kosherkotlin/AstronomicalCalendar.kt).
+It is a Kotlin port of Eliyahu Hershfeld's [KosherJava Zmanim API](https://github.com/KosherJava/zmanim),
+built on `kotlinx-datetime` so the same code runs on Android, iOS, desktop JVM and the browser.
+See [Project history and attribution](#project-history-and-attribution) for who wrote what.
 
-The `ZmanimCalendar` class contains the most common zmanim or religious time calculations. 
-For a much more extensive list of _zmanim_ use the `ComplexZmanimCalendar`.
-This class contains the main functionality of the Zmanim library.
+## Supported targets
 
-For a basic set of instructions on the use of the API, see [How to Use the Zmanim API](https://kosherjava.com/zmanim-project/how-to-use-the-zmanim-api/), [zmanim code samples](https://kosherjava.com/tag/code-sample/) and the [KosherJava FAQ](https://kosherjava.com/tag/faq/). See the <a href="https://kosherjava.com">KosherJava Zmanim site</a> for additional information.
+| Target | Published artifact | Notes |
+| --- | --- | --- |
+| Android | `kosherkotlin-android` | `minSdk` 24 |
+| JVM (desktop) | `kosherkotlin-desktop` | JDK 17 toolchain |
+| iOS | `kosherkotlin-iosarm64`, `-iossimulatorarm64`, `-iosx64` | |
+| JavaScript (browser) | `kosherkotlin-js` | Kotlin/JS IR |
 
-# Get Started
+## Installation
 
-## Dependency
-
-The library is published to Maven Central. Add it to your project:
+The library is on Maven Central. In a Kotlin Multiplatform project, depend on the root artifact and
+Gradle resolves the right variant for each target:
 
 ```kotlin
 // build.gradle.kts
@@ -27,130 +32,164 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("io.github.elfifo4:kosherkotlin:1.0.0")
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.github.elfifo4:kosherkotlin:1.0.1")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
+        }
+    }
 }
 ```
 
-The library supports Android, JVM (Desktop), iOS (arm64, x64, simulatorArm64), and JavaScript.
+In an Android-only or JVM-only project, the same coordinates go in the regular `dependencies` block.
 
-## Building from source
-
-This library is currently a Compose Multiplatform app with a package for the library and a package for the app. The app is a demo of the library, and is not required to use the library.
-
-### Before running!
-- check your system with [KDoctor](https://github.com/Kotlin/kdoctor)
-- install JDK 17 on your machine
-- add `local.properties` file to the project root and set a path to Android SDK there
-
-#### Android
-To run the application on android device/emulator:
-- open project in Android Studio and run imported android run configuration
-
-To build the application bundle:
-- run `./gradlew :composeApp:assembleDebug`
-- find `.apk` file in `composeApp/build/outputs/apk/debug/composeApp-debug.apk`
-
-#### Desktop
-Run the desktop application: `./gradlew :composeApp:run`
-
-#### iOS
-To run the application on iPhone device/simulator:
-- Open `iosApp/iosApp.xcproject` in Xcode and run standard configuration
-- Or use [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) for Android Studio
-
-#### Browser
-Run the browser application: `./gradlew :composeApp:jsBrowserDevelopmentRun`
+`kotlinx-datetime` types such as `TimeZone`, `LocalDate` and `Instant` appear in the public API, but
+the published artifact does not yet export that dependency to consumers at compile time. Until that
+is fixed, declare `kotlinx-datetime` yourself as shown above.
 
 ## Usage
 
-The library was designed to be as idiomatic as possible, both in its implementation and its API surface. Every client-facing zero-argument function is accessible as a computed property (e.g. `ComplexZmanimCalender().alos72`).
-
-Every zman has a lazily computed generic property called `value`.
-
-`Zman.DateBased` objects have a `momentOfOccurrence` property which lazily computes the `Instant` of the zman's occurrence. 
-
-`Zman.ValueBased` objects have a `duration` property which lazily computes the `Duration` of how long the zman lasts.
-
-A lazy list of all zmanim can be accessed using the `allZmanim` property of `ComplexZmanimCalendar` or `ZmanimCalendar`.
-
-Every `Zman` object has a `definition` property which contains the metadata of the rules used to calculate the zman.
+### Zmanim for a location
 
 ```kotlin
-val location = GeoLocation("New York", 40.7, -74.0, 0.0, TimeZone.of("America/New_York"))
-val calendar = ComplexZmanimCalendar(location)
-println(calendar.allZmanim.filter { it.definition.type == ZmanType.ALOS }.map { it.value })
-println(calendar.sunrise)
-println(calendar.alos72.momentOfOccurrence)
-println(calendar.shaahZmanis72Minutes.duration)
+import kotlinx.datetime.TimeZone
+import sternbach.software.kosherkotlin.ComplexZmanimCalendar
+import sternbach.software.kosherkotlin.metadata.ZmanType
+import sternbach.software.kosherkotlin.util.GeoLocation
+
+val location = GeoLocation(
+    "Lakewood, NJ",
+    40.096,                           // latitude
+    -74.222,                          // longitude
+    29.02,                            // elevation in meters
+    TimeZone.of("America/New_York")
+)
+val calendar = ComplexZmanimCalendar(location)  // defaults to today's date in that time zone
+
+println(calendar.sunrise)                             // Instant?
+println(calendar.alos72.momentOfOccurrence)           // Instant?
+println(calendar.shaahZmanis72Minutes.duration)       // Duration
+
+// Every opinion for a given kind of zman, with the rule each one is computed by
+calendar.allZmanim
+    .filter { it.definition.type == ZmanType.ALOS }
+    .forEach { println("${it.definition} -> ${it.value}") }
 ```
 
+`ZmanimCalendar` holds the most commonly used zmanim. `ComplexZmanimCalendar` extends it with a much
+larger set of opinions. For purely astronomical calculations, use `AstronomicalCalendar`.
 
-Hosted documentation coming soon!
+To calculate for another day, set `calendar.localDateTime`.
 
-# Future
-- [x] ~~There are plans to port the library to `kotlinx-datetime` so that it is multi-platform friendly. This is a major overhaul - PRs are welcomed.~~
-    - [ ] ZmanimFormatter needs to be re-written once kotlinx-datetime implements formatting
-- [x] ~~Library distribution needs to be improved (e.g. publishing to mavenCentral, etc.)~~
-    - Published to Maven Central as `io.github.elfifo4:kosherkotlin`
-- [ ] There are still a significant amount of javadocs/kdocs that were written for specific Java getters, setters, or properties, which were combined into a public property, and all of the javadocs/kdocs were copied to the property. They must be combined. There is often overlap or complete duplication between doc strings, but sometimes there are notes only relevant to the setter or getter.
-- [ ] Unit tests need to be ported from upstream. They are (slowly) being translated into Java from the Python port.
+### Hebrew calendar
 
-# Publishing a New Release
+```kotlin
+import kotlinx.datetime.LocalDate
+import sternbach.software.kosherkotlin.hebrewcalendar.HebrewDateFormatter
+import sternbach.software.kosherkotlin.hebrewcalendar.JewishCalendar
 
-This section is for maintainers.
+val day = JewishCalendar(LocalDate(2026, 4, 11))
+val formatter = HebrewDateFormatter()
 
-### Prerequisites
-
-`~/.gradle/gradle.properties` must contain:
-
-```properties
-mavenCentralUsername=<token from central.sonatype.com → View Account → Generate User Token>
-mavenCentralPassword=<token password>
-signingInMemoryKey=<GPG private key as a single line with \n separators>
-signingInMemoryKeyPassword=<GPG key passphrase>
+println(formatter.format(day))        // the Hebrew date
+println(formatter.formatParsha(day))  // "Shmini"
+println(day.parshah)               // the JewishCalendar.Parsha enum value; NONE on a weekday
+println(day.isRoshChodesh)
+println(day.dafYomiBavli)
 ```
 
-To convert your GPG private key to the required single-line format:
+### API conventions
+
+The port aims for an idiomatic Kotlin surface rather than a line-by-line translation:
+
+- Zero-argument getters from the Java API are properties (`calendar.alos72`, not `getAlos72()`).
+- A zman is a `Zman` object, not a bare date. `Zman.DateBased` exposes `momentOfOccurrence`
+  (an `Instant?`, `null` where the sun does not reach the required position, as in polar regions).
+  `Zman.ValueBased` exposes `duration`. Both compute lazily.
+- Every `Zman` carries a `definition`: structured metadata describing its type, the calculation
+  method and the authority it follows. `allZmanim` returns all of them as a list, so an app can
+  filter, group and label zmanim without hard-coding each one.
+
+The calculations themselves follow KosherJava, so its documentation applies:
+[How to Use the Zmanim API](https://kosherjava.com/zmanim-project/how-to-use-the-zmanim-api/),
+[code samples](https://kosherjava.com/tag/code-sample/) and the
+[FAQ](https://kosherjava.com/tag/faq/).
+
+## Project structure
+
+```
+library/      the published library; all code is in commonMain, with no platform-specific sources
+  src/commonMain/kotlin/sternbach/software/kosherkotlin/
+    AstronomicalCalendar.kt, ZmanimCalendar.kt, ComplexZmanimCalendar.kt, Zman.kt
+    hebrewcalendar/   JewishDate, JewishCalendar, HebrewDateFormatter, Daf Yomi, TefilaRules
+    metadata/         ZmanDefinition, ZmanType, ZmanAuthority, calculation methods
+    util/             GeoLocation, NOAACalculator, SunTimesCalculator
+  src/commonTest/     tests that run on every target
+  src/desktopTest/    JVM tests, including regression tests against KosherJava
+composeApp/   Compose Multiplatform demo app (Android, desktop, iOS, web); not needed to use the library
+iosApp/       Xcode project that hosts the iOS demo
+```
+
+## Testing
 
 ```bash
-awk '{printf "%s\\n", $0}' ~/private-key.asc
+./gradlew :library:desktopTest
 ```
 
-### Steps
+The JVM test suite depends on the original `com.kosherjava:zmanim` artifact and compares this port's
+output against it across dates and locations, so behavioural drift from the reference implementation
+shows up as a test failure. Calendar logic that has no JVM dependency is also covered in
+`commonTest`. CI runs the JVM suite on every push and pull request.
 
-1. Update `version` in [`library/build.gradle.kts`](library/build.gradle.kts)
-2. Commit and tag the release:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-3. Publish:
-   ```bash
-   ./gradlew :library:publishAndReleaseToMavenCentral --no-configuration-cache
-   ```
-4. Verify the deployment at [central.sonatype.com/publishing/deployments](https://central.sonatype.com/publishing/deployments)
-5. After 15–30 minutes verify the artifact is live:
-   ```
-   https://repo1.maven.org/maven2/io/github/elfifo4/kosherkotlin/
-   ```
+## Building the demo app
 
-### Testing before release
+Requirements: JDK 17, and a `local.properties` file at the project root pointing to the Android SDK.
+[KDoctor](https://github.com/Kotlin/kdoctor) can check the rest of the environment.
 
-```bash
-# Verify JARs and POM are generated correctly
-./gradlew :library:publishToMavenLocal
+| Platform | Command |
+| --- | --- |
+| Android | `./gradlew :composeApp:assembleDebug` |
+| Desktop | `./gradlew :composeApp:run` |
+| Browser | `./gradlew :composeApp:jsBrowserDevelopmentRun` |
+| iOS | open `iosApp/iosApp.xcodeproj` in Xcode and run |
 
-# Inspect output
-find ~/.m2/repository/io/github/elfifo4 -name "*.pom" | sort
-```
+## Project history and attribution
 
-# Projects using this library
-- [BeautifulZmanim](https://github.com/Sternbach-Software/BeautifulZmanim): a multi-platform zmanim app for desktop, web, and mobile. Written using Jetpack Compose.
+This repository is one link in a chain of work by several people:
 
-# License & Attribution
-The library is released under the [LGPL 2.1 license](https://kosherjava.com/2011/05/09/kosherjava-zmanim-api-released-under-the-lgpl-license/).
-If you made a publicly-available program that uses this library, I want to know! Just send me a heads-up email at "software at sternbach.org".
+- **[KosherJava Zmanim API](https://github.com/KosherJava/zmanim)** by Eliyahu Hershfeld is the
+  original library. The algorithms, the halachic research behind them and most of the
+  documentation comments originate there.
+- **[Sternbach-Software/KosherKotlin](https://github.com/Sternbach-Software/KosherKotlin)** by
+  Sternbach Software is the Kotlin port: the translation to Kotlin, the `Zman` and metadata model, and
+  the migration from `java.util`/`java.time` to `kotlinx-datetime` that made the code multiplatform.
+  The `sternbach.software.kosherkotlin` package name is kept from that project.
+- **This fork**, maintained by [Elad Finish](https://github.com/elfifo4), packages the port as a
+  consumable library. Its changes are: extracting the library from the demo app into a standalone
+  `:library` Gradle module, publishing it to Maven Central for Android, JVM, iOS and JS, upgrading
+  the toolchain and dependencies, a fix to the parsha calculation with regression tests, and
+  repairing the web target of the demo app. The full list is in the
+  [commit history](https://github.com/elfifo4/KosherKotlin/commits/master).
 
-# Disclaimer
-While I did my best to get accurate results, please double check before relying on these zmanim for *halacha lemaaseh*.
+## Known limitations
+
+- `ZmanimFormatter` from KosherJava has not been ported.
+- Some KDoc comments were merged from separate Java getters and setters into one Kotlin property
+  and still contain duplicated or getter-specific wording, including references to
+  `com.kosherjava` class names.
+- Only part of the upstream test suite has been ported.
+
+## Releasing
+
+Maintainer instructions are in [RELEASING.md](RELEASING.md).
+
+## License
+
+Released under the [GNU Lesser General Public License v2.1](LICENSE), the same license as
+[KosherJava](https://kosherjava.com/2011/05/09/kosherjava-zmanim-api-released-under-the-lgpl-license/).
+
+## Disclaimer
+
+Every effort is made to produce accurate results, but please double-check before relying on these
+zmanim for _halacha lemaaseh_.
